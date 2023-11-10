@@ -27,7 +27,7 @@ items = {
 
 rooms = {
     "room1" : {
-        "description" : "Put a whole long thing here",
+        "description" : "You are in a small room, with a bared door blocking a hallway. There is a key on the floor.",
         "choices" : ["get key", "open door"],
         "secret" : False
     }
@@ -38,7 +38,7 @@ roomNum = 1
 def saveData():
     #saves all data needed:
     #   Inventory, room data, room num, player name,
-    print(room1)
+    print("room1")
     pass
 
 def loadData():

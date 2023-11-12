@@ -1,4 +1,4 @@
-import TombOfOcura_V3 as main
+import TombOfOcura_main as main
 from time import sleep
 import sys
 

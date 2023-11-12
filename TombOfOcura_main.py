@@ -3,7 +3,7 @@ import sys
 import TombOfOcura_Info as info
 
 #Basic Functions
-def typeOut(message, sleepTime = 0.03, end="new", color=""):
+def typeOut(message, sleepTime = 0.00, end="new", color=""):
     for char in message:
         print(char, end="")
         sys.stdout.flush()
@@ -11,25 +11,34 @@ def typeOut(message, sleepTime = 0.03, end="new", color=""):
     if end == "new":
         print()
     else:
-        print(" ", end=" ")
+        print(end=end)
 
 def getInput(question=""):
-    room = "room" + str(info.roomNum)
+    #Print question if around
     if question != "":
         typeOut(question)
     playerInput = input().lower()
+
+    #Quit
     if playerInput in ["exit", "quit"]:
         quit()
         return None
+    #Describe
     elif playerInput in ["describe room", "show room"]:
-        describeRoom(room)
+        describeRoom()
         return None
+    #Check available Actions
     elif playerInput in ["check", "analyze", "choices", "actions"]:
-        showChoices(room)
+        showChoices()
         return None
+    #Inventory
     elif playerInput in ["inventory", "backpack", "inv"]:
         inventory()
         return None
+    elif "tp" in playerInput:
+        roomPort = playerInput.replace("tp", "").replace("room", "")
+        info.roomNum = roomPort
+        runRoom()
     else:
         return playerInput
 
@@ -123,6 +132,7 @@ class Inventory():
 #All Room related functions
 def describeRoom():
     room = getRoom()
+    print()
     typeOut(info.rooms[room]["description"])
     return
 
@@ -133,6 +143,7 @@ def changeDescription(newDes):
 
 def showChoices():
     room = getRoom()
+    print()
     for choice in info.rooms[room]["choices"]:
         typeOut(choice.title())
     return
@@ -164,27 +175,38 @@ def checkSecret() -> bool:
     except:
         return False
 
+def foundSecret() -> None:
+    room = getRoom()
+    try:
+        info.rooms[room]["secret"] = True
+    except:
+        pass
+
 #Main Running Rooms
 def runRoom():
     room = "room" + str(info.roomNum)
+    print()
     typeOut(info.rooms[room]["description"])
     typeOut("What would you like to do?")
     while True:
         playerInput = getInput()
         if playerInput != None:
+
             #Room1
             if room == "room1":
                 #Get Key
-                if playerInput in ["get key", "grab key"]:
+                if playerInput in ["get key", "grab key"] and checkChoice("get key"):
                     typeOut("\nYou grab the key. It seems like a perfect fit for the door.")
+                    removeChoice("get key")
                     inventory.addItems("key")
                     changeDescription("You are in a room with a bared door blocking your exit.")
                 
                 #Open door
-                elif playerInput in ["open door", "try door", "unlock door"]:
+                elif playerInput in ["open door", "try door", "unlock door"] and checkChoice("open door"):
                     #Open with success
                     if inventory.checkForItem("key"):
                         typeOut("\nYou use the key and open the door. There is a pile of hey to your right, and a hallway to the north.")
+                        removeChoice("open door")
                         addChoice("move north")
                         inventory.removeItem("key")
                         changeDescription("You are in a room with an open bared door, there is a pile of hay and a hallway to the north.")
@@ -194,22 +216,78 @@ def runRoom():
 
                 #Check Hay (secret)
                 elif playerInput in ["check hay", "analyze hay", "inspect hay"] and checkChoice("move north") and checkSecret() != True:
-                    typeOut("\nYou check the hay")
+                    typeOut("\nYou check the hay and find a small note. You add it to your inventory.")
+                    inventory.addItems("note 1")
+                    foundSecret()
 
                 #Move North (1-->2)
-                elif playerInput in ["move north", "walk north"]:
+                elif playerInput in ["move north", "walk north", "go north"] and checkChoice("move north"):
                     typeOut("\nYou walk to your north to the next room.")
                     info.roomNum = 2
                     runRoom()
 
+                else:
+                    typeOut("\n--Invalid Command--")
+
             
             #Room2
             if room == "room2":
-                pass
+                #Move North (2 -> 5)
+                if playerInput in ["move north", "walk north", "go north"]:
+                    info.roomNum = 5
+                    runRoom()
 
+                #Move East (2 -> 3)
+                elif playerInput in ["move east", "walk east", "go east"]:
+                    info.roomNum = 3
+                    runRoom()
+
+                #Move South (2 -> 1)
+                elif playerInput in ["move south", "walk south", "go south"]:
+                    info.roomNum = 1
+                    runRoom()
+
+                #Check Symbol
+                elif playerInput in ["check symbol", "investigate symbol", "analyze symbol"]:
+                    if checkChoice("check symbol"):
+                        typeOut("\nYou feel as though you've seen this symbol long ago. Its dangerous and powerful. "+
+                                "You check and it appears to be red paint on closer inspection")
+                        removeChoice("check symbol")
+                    else:
+                        typeOut("Its a powerful and dangerous symbol.")
+
+                #Check Candles (Secret)
+                elif playerInput in ["check candles", "investigate candles", "analyze candles"] and checkSecret != True:
+                    typeOut("\nYou look closer at the small flickering flames of the candle. Before your eyes, the fire glows until it's as tall as you."+
+                            "Within the flame, you see a key. It moves towards you, until the base is out of the flames. You grab it, finding the key isn't even"+
+                            " warm. You pocket the secret key.")
+                    inventory.addItems("secret key")
+                    foundSecret()
+
+                else:
+                    print("\n--Invalid Command--")
+
+
+                #Room 3
+                if room == "room3":
                     
+                    #Move South (3 -> 4)
+                    if playerInput in ["move south", "walk south", "go south"]:
+                        info.roomNum = 4
+                        runRoom()
+
+                    #Move West (3 -> 2)
+                    elif playerInput in ["move west", "walk west", "go west"]:
+                        info.roomNum = 2
+                        runRoom()
+
+                    #Get Sword
+                    elif playerInput in ["get sword", "grab sword"] and checkChoice("get sword"):
+                        inventory.addItems("basic sword")
+
         else:
             typeOut("\nWhat would you like to do?")
 
-inventory = Inventory()
-runRoom()
+if __name__ == "__main__":
+    inventory = Inventory()
+    runRoom()

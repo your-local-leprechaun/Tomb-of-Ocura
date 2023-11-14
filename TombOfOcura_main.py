@@ -1,6 +1,7 @@
 from time import sleep
 import sys
 import TombOfOcura_Info as info
+import TombOfOcura_inv as inv
 
 #Basic Functions
 def typeOut(message, sleepTime = 0.00, end="new", color=""):

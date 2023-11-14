@@ -1,11 +1,17 @@
-from colorama import init, Fore, Style
 from TombOfOcura_main import typeOut
 
-def invFull(inventory):
-    Fore.BLUE
-    print("Open inventory")
-    Style.RESET_ALL
-    return
 
-if __name__ != "__main__":
-    init()
+def invFull(inv):
+    typeOut("\n---Inventory---")
+    for item in inv.items:
+        print(item.title())
+
+    playerInput = ""
+    while playerInput not in["quit", "exit", "leave"]:
+        print("\nWhat would you like to do?")
+        playerInput = input().lower()
+        
+        #Check any item in inventory
+        if any(item in inv.items for item in playerInput):
+            print(playerInput)
+    return

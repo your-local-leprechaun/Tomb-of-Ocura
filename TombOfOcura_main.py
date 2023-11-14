@@ -34,7 +34,7 @@ def getInput(question=""):
         return None
     #Inventory
     elif playerInput in ["inventory", "backpack", "inv"]:
-        inventory()
+        inv.invFull(inventory)
         return None
     elif "tp" in playerInput:
         roomPort = playerInput.replace("tp", "").replace("room", "")
@@ -302,7 +302,7 @@ def runRoom():
                         typeOut("You fix the tilted painting and you hear something click behind it. As you back away, the painting slides to "+
                                 "the side revealing a secret entrance.")
                         if checkChoice("get sword"):
-                            changedescription("The room you stand in has a sword on the ground with a skeleton. To your east is a secret passage "+
+                            changeDescription("The room you stand in has a sword on the ground with a skeleton. To your east is a secret passage "+
                                                 "while to your west is the candle room. To your south is another brightly lit room.")
                         else:
                             changeDescription("The room you stand in has a skeleton on the ground, along with a tilted painting to the east. "+

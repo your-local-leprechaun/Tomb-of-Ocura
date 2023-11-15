@@ -4,24 +4,28 @@ import sys
 playerName = "Jae"
 
 items = {
-    "Basic Sword" : {
-        "Description" : "This is a basic sword. It's nothing special "+
+    "key" : {
+        "description" : "A basic key used to unlock doors.",
+        "type" : "misc"
+    },
+    "basic sword" : {
+        "description" : "This is a basic sword. It's nothing special "+
                         "but it'll keep you safe.",
-        "Type" : "Weapon",
-        "Attack" : 1,
-        "Hit" : [0,3]
+        "type" : "weapon",
+        "attack" : 1,
+        "hit" : [0,3]
     },
     "Ratty Leather" : {
-        "Description" : "A leather armor set that's old and ratty. It " +
+        "description" : "A leather armor set that's old and ratty. It " +
                         "might not be much, but it should protect you slightly.",
-        "Type" : "Armor",
-        "Defense" : 1
+        "type" : "armor",
+        "defense" : 1
     },
     "Amethyst Ring" : {
-        "Description" : "A small ring that seems to fit perfectly. It "+
+        "description" : "A small ring that seems to fit perfectly. It "+
                         "can boost defense a small amount.",
-        "Type" : "Ring",
-        "Power" : "+3 Defense"
+        "type" : "ring",
+        "power" : "+3 Defense"
     },
 }
 

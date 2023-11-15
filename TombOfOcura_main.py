@@ -232,7 +232,7 @@ def runRoom():
 
             
             #Room2
-            if room == "room2":
+            elif room == "room2":
                 #Move North (2 -> 5)
                 if playerInput in ["move north", "walk north", "go north"]:
                     info.roomNum = 5
@@ -269,47 +269,47 @@ def runRoom():
                     print("\n--Invalid Command--")
 
 
-                #Room 3
-                if room == "room3":
-                    
-                    #Move South (3 -> 4)
-                    if playerInput in ["move south", "walk south", "go south"]:
-                        info.roomNum = 4
-                        typeOut("You walk to the room to the south.")
-                        runRoom()
+            #Room 3
+            if room == "room3":
+                
+                #Move South (3 -> 4)
+                if playerInput in ["move south", "walk south", "go south"]:
+                    info.roomNum = 4
+                    typeOut("You walk to the room to the south.")
+                    runRoom()
 
-                    #Move West (3 -> 2)
-                    elif playerInput in ["move west", "walk west", "go west"]:
-                        info.roomNum = 2
-                        typeOut("You walk into the room to the west.")
-                        runRoom()
+                #Move West (3 -> 2)
+                elif playerInput in ["move west", "walk west", "go west"]:
+                    info.roomNum = 2
+                    typeOut("You walk into the room to the west.")
+                    runRoom()
 
-                    #Get Sword
-                    elif playerInput in ["get sword", "grab sword"] and checkChoice("get sword"):
-                        inventory.addItems("basic sword")
-                        removeChoice("get sword")
-                        typeOut("You pick up the sword. Although basic, it will be useful. You add it to your inventory.")
-                        if checkSecret():
-                            changeDescription("The room you stand in has a skeleton on the ground, along with a secret passage "+
-                                                "to your east. To your west is the candle room, to your south another bright room.")
-                        else:
-                            changeDescription("The room you stand in has a skeleton on the ground, along with a tilted painting to the east. "+
-                                                "To your west is the candle room, and there is another brightly lit room to your south.")
-
-                    #Fix Painting
-                    elif playerInput in ["fix painting"] and checkSecret != True:
-                        foundSecret()
-                        typeOut("You fix the tilted painting and you hear something click behind it. As you back away, the painting slides to "+
-                                "the side revealing a secret entrance.")
-                        if checkChoice("get sword"):
-                            changeDescription("The room you stand in has a sword on the ground with a skeleton. To your east is a secret passage "+
-                                                "while to your west is the candle room. To your south is another brightly lit room.")
-                        else:
-                            changeDescription("The room you stand in has a skeleton on the ground, along with a tilted painting to the east. "+
-                                                "To your west is the candle room, and there is another brightly lit room to your south.")
-
+                #Get Sword
+                elif playerInput in ["get sword", "grab sword"] and checkChoice("get sword"):
+                    inventory.addItems("basic sword")
+                    removeChoice("get sword")
+                    typeOut("You pick up the sword. Although basic, it will be useful. You add it to your inventory.")
+                    if checkSecret():
+                        changeDescription("The room you stand in has a skeleton on the ground, along with a secret passage "+
+                                            "to your east. To your west is the candle room, to your south another bright room.")
                     else:
-                        typeOut("--Invalid Command--")
+                        changeDescription("The room you stand in has a skeleton on the ground, along with a tilted painting to the east. "+
+                                            "To your west is the candle room, and there is another brightly lit room to your south.")
+
+                #Fix Painting
+                elif playerInput in ["fix painting"] and checkSecret != True:
+                    foundSecret()
+                    typeOut("You fix the tilted painting and you hear something click behind it. As you back away, the painting slides to "+
+                            "the side revealing a secret entrance.")
+                    if checkChoice("get sword"):
+                        changeDescription("The room you stand in has a sword on the ground with a skeleton. To your east is a secret passage "+
+                                            "while to your west is the candle room. To your south is another brightly lit room.")
+                    else:
+                        changeDescription("The room you stand in has a skeleton on the ground, along with a tilted painting to the east. "+
+                                            "To your west is the candle room, and there is another brightly lit room to your south.")
+
+                else:
+                    typeOut("--Invalid Command--")
 
         else:
             typeOut("\nWhat would you like to do?")

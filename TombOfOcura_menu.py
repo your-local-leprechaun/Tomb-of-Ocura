@@ -1,4 +1,3 @@
-import TombOfOcura_main as main
 from time import sleep
 import sys
 
@@ -19,4 +18,4 @@ while True:
     playerInput = input().lower()
     if playerInput in ["1", "start new game", "new game", "start game"]:
         typeOut("Good luck on your adventure through the Tomb of Ocura!!")
-        exec(open("TombOfOcura_V3.py").read())
+        exec(open("TombOfOcura_main.py").read())

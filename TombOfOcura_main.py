@@ -1,11 +1,8 @@
 from time import sleep
 import sys
-import TombOfOcura_Info as info
-import TombOfOcura_inv as inv
-from colorModule import changeColor
 
 #Basic Functions
-def typeOut(message, sleepTime = 0.0, end="new"):
+def typeOut(message, sleepTime = 0.03, end="new"):
     for char in message:
         print(char, end="")
         sys.stdout.flush()
@@ -35,7 +32,7 @@ def getInput(question=""):
         return None
     #Inventory
     elif playerInput in ["inventory", "backpack", "inv"]:
-        inv.invFull(inventory)
+        invFull(inventory)
         return None
     elif "tp" in playerInput:
         roomPort = playerInput.replace("tp", "").replace("room", "")
@@ -59,132 +56,6 @@ def quit():
         exit()
     else:
         return
-
-#All Inventory Related Functions
-class Inventory():
-    """
-    Inventory creates an inventory that can show items, equip and unequip items, as well as a few other things
-
-    Functions
-    ---------
-    __init__() creates empty list (items) when inventory is created
-
-    __str__() returns the list of all items without anything fancy
-
-    show() outputs all items in a nicer looking manor
-
-    addItems() adds items to items list in inventory
-
-    removeItems() removes items from items list in inventory
-
-    itemInfo() outputs data based on the dictionary in Info
-    """
-    def __init__(self) -> None:
-        self.items = []
-
-    def __str__(self) -> str:
-        return str(self.items)
-        
-    def show(self) -> None:
-        if len(self.items) <= 0:
-            typeOut("You have no items in your Inventory!")
-        else:
-            print()
-            for item in self.items:
-                typeOut(f"{item.title()}")
-    
-    def addItems(self, items):
-        if type(items) == str:
-            self.items.append(items)
-            typeOut(f"-{items.title()} Added to Inventory-")
-        else:
-            for item in items:
-                self.items.append(item)
-
-    def removeItem(self, items):
-        if type(items) == str:
-            self.items.remove(items)
-        else:
-            for item in items:
-                self.items.remove(item)
-
-    def checkForItem(self, item) -> bool:
-        for object in self.items:
-            if object == item:
-                return True
-            else:
-                return False
-
-    def itemInfo(self, item):
-        description = info.items[item]["description"]
-        type = info.items[item]["type"]
-        if type == "weapon":
-            attack = str(info.items[item]["attack"]) + " Power"
-            hit = str(info.items[item]["hit"][0]) + "-" + str(info.items[item]["hit"][1]) + " to Hit"
-            typeOut(f"\n{item.title()}\n   Description: {description}\n   "+
-                    f"Attack: {attack}\n   Hit: {hit}")
-        elif type == "armor":
-            defense = str(info.items[item]["defense"]) + " Defense"
-            typeOut(f"{item}\n   Description: {description}\n   "+
-                    f"Protection: {defense}")
-        elif type == "ring":
-            typeOut(f"{item}\n   Description: {description}")
-
-    def save(self):
-        info.saveData(self.items)
-
-#All Room related functions
-def describeRoom():
-    room = getRoom()
-    print()
-    typeOut(info.rooms[room]["description"])
-    return
-
-def changeDescription(newDes):
-    room = getRoom()
-    info.rooms[room]["description"] = newDes
-    return
-
-def showChoices():
-    room = getRoom()
-    print()
-    for choice in info.rooms[room]["choices"]:
-        typeOut(choice.title())
-    return
-
-def addChoice(addedChoice):
-    room = getRoom()
-    info.rooms[room]["choices"].append(addedChoice)
-    return
-
-def removeChoice(removedChoice):
-    room = getRoom()
-    try:
-        info.rooms[room]["choices"].remove(removedChoice)
-    except:
-        print("--Unable to remove--")
-    return
-
-def checkChoice(choiceToCheck) -> bool:
-    room = getRoom()
-    if choiceToCheck in info.rooms[room]["choices"]:
-        return True
-    else:
-        return False
-
-def checkSecret() -> bool:
-    room = getRoom()
-    try:
-        return info.rooms[room]["secret"]
-    except:
-        return False
-
-def foundSecret() -> None:
-    room = getRoom()
-    try:
-        info.rooms[room]["secret"] = True
-    except:
-        pass
 
 #Main Running Rooms
 def runRoom():
@@ -220,7 +91,7 @@ def runRoom():
 
                 #Check Hay (secret)
                 elif playerInput in ["check hay", "analyze hay", "inspect hay"] and checkChoice("move north") and checkSecret() != True:
-                    typeOut("\nYou check the hay and find a small note. You add it to your inventory.")
+                    typeOut("\nYou check the hay and find a small note.")
                     inventory.addItems("note 1")
                     foundSecret()
 
@@ -329,9 +200,15 @@ def runRoom():
                             "It looks to be the perfect fit for you.")
                     removeChoice("open chest")
                     inventory.removeItem("secret key")
+                    inventory.addItems("bronze ring")
 
         else:
             typeOut("\nWhat would you like to do?")
+
+#Second Line of Imports (As some of these will lead circularly, so they need to be made after some of our basic functions are made)
+import TombOfOcura_info as info
+from roomModule import *
+from TombOfOcura_inv import *
 
 if __name__ == "__main__":
     inventory = Inventory()

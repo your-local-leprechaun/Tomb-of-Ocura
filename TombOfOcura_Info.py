@@ -1,13 +1,23 @@
-from time import sleep
-import sys
 
 playerName = "Jae"
 
 items = {
+    #Misc
     "key" : {
         "description" : "A basic key used to unlock doors.",
         "type" : "misc"
     },
+    "secret key" : {
+        "description" : "A key you got when you discovered a secret. Used to unlock mostly chests.",
+        "type" : "misc"
+    },
+
+    #Notes
+    "note 1" : {
+        "description" : "--Start of story here.--",
+        "type" : "note"
+    },
+
     "basic sword" : {
         "description" : "This is a basic sword. It's nothing special "+
                         "but it'll keep you safe.",

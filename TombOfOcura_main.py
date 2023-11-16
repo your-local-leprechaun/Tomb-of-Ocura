@@ -23,7 +23,7 @@ def getInput(question=""):
         quit()
         return None
     #Describe
-    elif playerInput in ["describe room", "show room"]:
+    elif playerInput in ["describe room", "show room", "describe"]:
         describeRoom()
         return None
     #Check available Actions

@@ -29,16 +29,19 @@ class Inventory():
 
     def __str__(self) -> str:
         return str(self.items)
-        
+    
     def show(self) -> None:
         if len(self.items) <= 0:
             typeOut("You have no items in your Inventory!")
         else:
             print()
             for item in self.items:
-                typeOut(f"{item.title()}")
-        if self.equipped:
-            self.equipmentShow()
+                type = info.items[item]["type"].title()
+                if item not in self.equipped:
+                    printStr = f"{type:7} | {item.title()}"
+                else:
+                    printStr = f"{type:7}*| {item.title()}"
+                typeOut(printStr)
     
     def addItems(self, items):
         if type(items) == str:
@@ -102,8 +105,11 @@ class Inventory():
 
     def equipItem(self, item):
         if info.items[item]["type"] == "weapon":
-            self.equipped[0] = item
-            print(self.equipped)
+            try:
+                self.equipped[0] = item
+                typeOut(f"\n-{item.title()} Equipped-")
+            except:
+                typeOut("\n-Item Not Found-")
 
     def unequipItem(self, item):
         pass
@@ -112,7 +118,7 @@ class Inventory():
         info.saveData(self.items)
 
 def invFull(inv):
-    changeColor("blue")
+    changeColor("cyan")
     typeOut("\n---Inventory---")
     inv.show()
 
@@ -134,6 +140,10 @@ def invFull(inv):
             inv.equipItem(playerInput)
 
         elif playerInput in ["quit", "exit", "leave"]:
+            pass
+        
+        #when returning from playerInput it goes a bit wild
+        elif playerInput in inv.items:
             pass
 
         else:

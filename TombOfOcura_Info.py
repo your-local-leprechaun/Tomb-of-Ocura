@@ -51,8 +51,7 @@ rooms = {
     },
     "room4" : {
         "description" : "Room 4 description",
-        "choices" : ["open chest", "move north"],
-        "secret" : False
+        "choices" : ["open chest", "move north"]
     }
 }
 
@@ -67,9 +66,3 @@ def saveData():
 def loadData():
     #loads all data if found. All data same as that saved in saveData()
     pass
-
-
-if __name__ != "__main__":
-    pass
-    # room1 = Room("room1", "You are in a room that looks like a jail. There are bars and a locked door, with a key on the ground.",
-    #              ["get key", "open door"])

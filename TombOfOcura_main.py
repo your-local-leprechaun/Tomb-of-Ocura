@@ -2,9 +2,10 @@ from time import sleep
 import sys
 import TombOfOcura_Info as info
 import TombOfOcura_inv as inv
+from colorModule import changeColor
 
 #Basic Functions
-def typeOut(message, sleepTime = 0.00, end="new", color=""):
+def typeOut(message, sleepTime = 0.0, end="new"):
     for char in message:
         print(char, end="")
         sys.stdout.flush()
@@ -88,12 +89,14 @@ class Inventory():
         if len(self.items) <= 0:
             typeOut("You have no items in your Inventory!")
         else:
+            print()
             for item in self.items:
-                typeOut(f"   {item}")
+                typeOut(f"{item.title()}")
     
     def addItems(self, items):
         if type(items) == str:
             self.items.append(items)
+            typeOut(f"-{items.title()} Added to Inventory-")
         else:
             for item in items:
                 self.items.append(item)
@@ -113,18 +116,18 @@ class Inventory():
                 return False
 
     def itemInfo(self, item):
-        description = info.items[item]["Description"]
-        type = info.items[item]["Type"]
-        if type == "Weapon":
-            attack = str(info.items[item]["Attack"]) + " Power"
-            hit = str(info.items[item]["Hit"][0]) + "-" + str(info.items[item]["Hit"][1]) + " to Hit"
-            typeOut(f"{item}\n   Description: {description}\n   "+
+        description = info.items[item]["description"]
+        type = info.items[item]["type"]
+        if type == "weapon":
+            attack = str(info.items[item]["attack"]) + " Power"
+            hit = str(info.items[item]["hit"][0]) + "-" + str(info.items[item]["hit"][1]) + " to Hit"
+            typeOut(f"\n{item.title()}\n   Description: {description}\n   "+
                     f"Attack: {attack}\n   Hit: {hit}")
-        elif type == "Armor":
-            defense = str(info.items[item]["Defense"]) + " Defense"
+        elif type == "armor":
+            defense = str(info.items[item]["defense"]) + " Defense"
             typeOut(f"{item}\n   Description: {description}\n   "+
                     f"Protection: {defense}")
-        elif type == "Ring":
+        elif type == "ring":
             typeOut(f"{item}\n   Description: {description}")
 
     def save(self):
@@ -206,7 +209,7 @@ def runRoom():
                 elif playerInput in ["open door", "try door", "unlock door"] and checkChoice("open door"):
                     #Open with success
                     if inventory.checkForItem("key"):
-                        typeOut("\nYou use the key and open the door. There is a pile of hey to your right, and a hallway to the north.")
+                        typeOut("\nYou use the key and open the door. There is a pile of hay to your right, and a hallway to the north.")
                         removeChoice("open door")
                         addChoice("move north")
                         inventory.removeItem("key")
@@ -286,9 +289,9 @@ def runRoom():
 
                 #Get Sword
                 elif playerInput in ["get sword", "grab sword"] and checkChoice("get sword"):
-                    inventory.addItems("basic sword")
                     removeChoice("get sword")
-                    typeOut("You pick up the sword. Although basic, it will be useful. You add it to your inventory.")
+                    typeOut("\nYou pick up the sword. Although basic, it will be useful.")
+                    inventory.addItems("basic sword")
                     if checkSecret():
                         changeDescription("The room you stand in has a skeleton on the ground, along with a secret passage "+
                                             "to your east. To your west is the candle room, to your south another bright room.")
@@ -310,6 +313,22 @@ def runRoom():
 
                 else:
                     typeOut("--Invalid Command--")
+            
+            #Room 4
+            elif room == "room4":
+
+                #Move North
+                if playerInput in ["move north", "go north", "walk north"]:
+                    typeOut("You walk out of the room.")
+                    info.roomNum = 3
+                    runRoom()
+
+                #Open Chest
+                if playerInput in ["open chest", "unlock chest"] and checkChoice("open chest") and inventory.checkForItem("secret key"):
+                    typeOut("You pull out your secret key and unlock the chest. It looks empty for a moment, until you see a small bronze ring. "+
+                            "It looks to be the perfect fit for you.")
+                    removeChoice("open chest")
+                    inventory.removeItem("secret key")
 
         else:
             typeOut("\nWhat would you like to do?")

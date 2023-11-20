@@ -3,6 +3,16 @@ import sys
 
 #Basic Functions
 def typeOut(message, sleepTime = 0.03, end="new"):
+    """
+    My favorite function. Shows the text typing out rather than just appearing. Very fun to use
+    and makes anything look better in my eyes
+
+    Parameters
+    ----------
+    message : Str   The text you want printed out
+    sleepTime : Float   Amount of time you want in between each character
+    end : Str   Changes how the sentence ends, just like a normal print function
+    """
     for char in message:
         print(char, end="")
         sys.stdout.flush()
@@ -12,7 +22,20 @@ def typeOut(message, sleepTime = 0.03, end="new"):
     else:
         print(end=end)
 
-def getInput(question=""):
+def getInput(question="") -> str:
+    """
+    Deals with all basic inputs, such as quit, inventory, and some room related stuff, such as describe. This way, I don't have to put it in
+    each and every room code. All these are based on the room currently in.
+
+    Parameters
+    ----------
+    question : Str   Any question you would like to print off before asking for input, just like an input() function
+
+    Returns
+    -------
+    playerInput : Str   This is the players input. If nothing is activated it will return it to be used in runRoom()
+    """
+
     #Print question if around
     if question != "":
         typeOut(question)
@@ -22,22 +45,29 @@ def getInput(question=""):
     if playerInput in ["exit", "quit"]:
         quit()
         return None
+    
     #Describe
     elif playerInput in ["describe room", "show room", "describe"]:
         describeRoom()
         return None
+    
     #Check available Actions
     elif playerInput in ["check", "analyze", "choices", "actions"]:
         showChoices()
         return None
+    
     #Inventory
     elif playerInput in ["inventory", "backpack", "inv"]:
         invFull(inventory)
         return None
+    
+    #Special Luke Function TP
     elif "tp" in playerInput:
         roomPort = playerInput.replace("tp", "").replace("room", "")
         info.roomNum = roomPort
         runRoom()
+
+    #Return
     else:
         return playerInput
 
@@ -49,6 +79,10 @@ def getRoom() -> str:
     return "room"+str(info.roomNum)
 
 def quit():
+    """
+    Allows a quit to happen rather than having to break a billion times as we're running lots of functions, this would be easier. Also
+    asks if sure which is good.
+    """
     typeOut("\nAre you sure you want to quit? (y/n)\nProgress will not be saved currently")
     playerInput = input().lower()
     if playerInput in ["yes", "y", "exit"]:

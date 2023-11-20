@@ -112,7 +112,11 @@ class Inventory():
                 typeOut("\n-Item Not Found-")
 
     def unequipItem(self, item):
-        pass
+        if item in self.equipped:
+            self.equipped[self.equipped.index(item)] = ""
+            typeOut(f"-{item.title()} Unequipped-")
+        else:
+            typeOut("-Item was not Equipped-")
 
     def save(self):
         info.saveData(self.items)
@@ -135,9 +139,13 @@ def invFull(inv):
         elif playerInput in ["show items", "show inventory"]:
             inv.show()
 
-        if "equip" in playerInput and "equipment" not in playerInput:
+        if "equip" in playerInput and "equipment" not in playerInput and "unequip" not in playerInput:
             playerInput = playerInput.replace("equip ", "")
             inv.equipItem(playerInput)
+
+        elif "unequip" in playerInput:
+            playerInput = playerInput.replace("unequip ", "")
+            inv.unequipItem(playerInput)
 
         elif playerInput in ["quit", "exit", "leave"]:
             pass
@@ -147,6 +155,7 @@ def invFull(inv):
             pass
 
         else:
+            print("HERE")
             typeOut("--Invalid Command--")
     
     resetColor()

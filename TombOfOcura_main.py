@@ -59,6 +59,15 @@ def quit():
 
 #Main Running Rooms
 def runRoom():
+    """
+    This function works as the main function in my game, as it loops through each and every room you go through. It has a LOT in it, 
+    including the information for every single room, so I might not go super in depth.
+
+    Dependant
+    ----------
+    TombOfOcura_info.py     Needed to get the room number currently in and the room information, such as choices, description, and secrets
+    
+    """
     room = "room" + str(info.roomNum)
     print()
     typeOut(info.rooms[room]["description"])

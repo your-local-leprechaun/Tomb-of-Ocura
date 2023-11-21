@@ -114,7 +114,7 @@ class Inventory():
     def unequipItem(self, item):
         if item in self.equipped:
             self.equipped[self.equipped.index(item)] = ""
-            typeOut(f"-{item.title()} Unequipped-")
+            typeOut(f"\n-{item.title()} Unequipped-")
         else:
             typeOut("-Item was not Equipped-")
 
@@ -128,7 +128,7 @@ def invFull(inv):
 
     playerInput = ""
     while playerInput not in["quit", "exit", "leave"]:
-        typeOut("\nWhat would you like to do?")
+        typeOut("\nWhat would you like to do?\n> ", end="")
         playerInput = input().lower()
         
         #Check any item in inventory
@@ -139,7 +139,7 @@ def invFull(inv):
         elif playerInput in ["show items", "show inventory"]:
             inv.show()
 
-        if "equip" in playerInput and "equipment" not in playerInput and "unequip" not in playerInput:
+        elif "equip" in playerInput and "equipment" not in playerInput and "unequip" not in playerInput:
             playerInput = playerInput.replace("equip ", "")
             inv.equipItem(playerInput)
 
@@ -150,9 +150,9 @@ def invFull(inv):
         elif playerInput in ["quit", "exit", "leave"]:
             pass
         
-        #when returning from playerInput it goes a bit wild
-        elif playerInput in inv.items:
-            pass
+        # #when returning from playerInput it goes a bit wild
+        # elif playerInput in inv.items:
+        #     pass
 
         else:
             print("HERE")

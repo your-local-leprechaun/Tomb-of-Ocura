@@ -2,6 +2,7 @@ import os
 os.system("")
 
 class Style():
+    BOLD = "\033[1m"
     BLACK = "\033[30m"
     RED = "\033[31m"
     GREEN = "\033[32m"

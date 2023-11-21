@@ -39,6 +39,7 @@ def getInput(question="") -> str:
     #Print question if around
     if question != "":
         typeOut(question)
+    typeOut("> ", end="")
     playerInput = input().lower()
 
     #Quit
@@ -104,6 +105,8 @@ def runRoom():
     """
     room = "room" + str(info.roomNum)
     print()
+    typeOut(Style.BOLD + info.rooms[room]["name"])
+    resetColor()
     typeOut(info.rooms[room]["description"])
     typeOut("What would you like to do?")
     while True:
@@ -166,7 +169,7 @@ def runRoom():
                     runRoom()
 
                 #Check Symbol
-                elif playerInput in ["check symbol", "investigate symbol", "analyze symbol"]:
+                elif playerInput in ["check symbol", "investigate symbol", "analyze symbol", "check floor"]:
                     if checkChoice("check symbol"):
                         typeOut("\nYou feel as though you've seen this symbol long ago. Its dangerous and powerful. "+
                                 "You check and it appears to be red paint on closer inspection")
@@ -231,7 +234,7 @@ def runRoom():
             #Room 4
             elif room == "room4":
 
-                #Move North
+                #Move North (4 -> 3)
                 if playerInput in ["move north", "go north", "walk north"]:
                     typeOut("You walk out of the room.")
                     info.roomNum = 3
@@ -244,9 +247,11 @@ def runRoom():
                     removeChoice("open chest")
                     inventory.removeItem("secret key")
                     inventory.addItems("bronze ring")
+                    changeDescription("You are in a brightly lit room with torches on the walls. There is an already opened chest in the middle. "
+                                      + "There is a door to your north leading to the skeleton room.")
 
                 else:
-                    typeOut("--Invalid Command--")
+                    typeOut("\n--Invalid Command--")
 
         else:
             typeOut("\nWhat would you like to do?")

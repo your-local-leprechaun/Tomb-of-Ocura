@@ -187,18 +187,18 @@ def runRoom():
 
 
             #Room 3
-            if room == "room3":
+            elif room == "room3":
                 
                 #Move South (3 -> 4)
                 if playerInput in ["move south", "walk south", "go south"]:
                     info.roomNum = 4
-                    typeOut("You walk to the room to the south.")
+                    typeOut("\nYou walk to the room to the south.")
                     runRoom()
 
                 #Move West (3 -> 2)
                 elif playerInput in ["move west", "walk west", "go west"]:
                     info.roomNum = 2
-                    typeOut("You walk into the room to the west.")
+                    typeOut("\nYou walk into the room to the west.")
                     runRoom()
 
                 #Get Sword
@@ -216,7 +216,7 @@ def runRoom():
                 #Fix Painting
                 elif playerInput in ["fix painting"] and checkSecret != True:
                     foundSecret()
-                    typeOut("You fix the tilted painting and you hear something click behind it. As you back away, the painting slides to "+
+                    typeOut("\nYou fix the tilted painting and you hear something click behind it. As you back away, the painting slides to "+
                             "the side revealing a secret entrance.")
                     if checkChoice("get sword"):
                         changeDescription("The room you stand in has a sword on the ground with a skeleton. To your east is a secret passage "+
@@ -238,12 +238,15 @@ def runRoom():
                     runRoom()
 
                 #Open Chest
-                if playerInput in ["open chest", "unlock chest"] and checkChoice("open chest") and inventory.checkForItem("secret key"):
-                    typeOut("You pull out your secret key and unlock the chest. It looks empty for a moment, until you see a small bronze ring. "+
+                elif playerInput in ["open chest", "unlock chest"] and checkChoice("open chest") and inventory.checkForItem("secret key"):
+                    typeOut("\nYou pull out your secret key and unlock the chest. It looks empty for a moment, until you see a small bronze ring. "+
                             "It looks to be the perfect fit for you.")
                     removeChoice("open chest")
                     inventory.removeItem("secret key")
                     inventory.addItems("bronze ring")
+
+                else:
+                    typeOut("--Invalid Command--")
 
         else:
             typeOut("\nWhat would you like to do?")

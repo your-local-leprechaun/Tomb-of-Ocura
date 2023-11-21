@@ -18,6 +18,7 @@ items = {
         "type" : "note"
     },
 
+    #Weapons
     "basic sword" : {
         "description" : "This is a basic sword. It's nothing special "+
                         "but it'll keep you safe.",
@@ -25,18 +26,24 @@ items = {
         "attack" : 1,
         "hit" : [0,3]
     },
+
+    #Armor
     "Ratty Leather" : {
         "description" : "A leather armor set that's old and ratty. It " +
                         "might not be much, but it should protect you slightly.",
         "type" : "armor",
         "defense" : 1
     },
-    "Amethyst Ring" : {
+
+    #Rings
+    "bronze ring" : {
         "description" : "A small ring that seems to fit perfectly. It "+
                         "can boost defense a small amount.",
         "type" : "ring",
         "power" : "+3 Defense"
     },
+
+    #Magic
 }
 
 rooms = {
@@ -60,7 +67,7 @@ rooms = {
         "secret" : False
     },
     "room4" : {
-        "description" : "Room 4 description",
+        "description" : "The room is brightly lit and there is a locked chest in the middle of it.",
         "choices" : ["open chest", "move north"]
     }
 }

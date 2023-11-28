@@ -1,5 +1,11 @@
-#This script hold all the classes for every single creature in the game. 
-#Use it to create instances of the creature you want while fighting or anything else
+# This script will hold all monster classes. Each will use Monster as a starting point, as all monsters have
+# certain attributes such as name, 
+
+class Monster():
+    food = 'bamboo'
+
+    def __init__(self):
+        pass
 
 class Spider():
     def __init__(self, name):

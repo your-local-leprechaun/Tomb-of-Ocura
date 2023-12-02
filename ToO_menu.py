@@ -18,4 +18,4 @@ while True:
     playerInput = input().lower()
     if playerInput in ["1", "start new game", "new game", "start game"]:
         typeOut("Good luck on your adventure through the Tomb of Ocura!!")
-        exec(open("TombOfOcura_main.py").read())
+        exec(open("ToO_main.py").read())

@@ -1,6 +1,6 @@
-from colorModule import *
-from TombOfOcura_main import typeOut
-import TombOfOcura_info as info
+from colorModule import Style, resetColor, changeColor
+from basicModule import typeOut
+import ToO_info as info
 
 #All Inventory Related Functions
 class Inventory():

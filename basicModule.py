@@ -28,7 +28,8 @@ def save():
     #Room Saves
     file = open("saveData/roomSave.txt", "w")
     for room in rooms:
-        file.write(f"{room.description}||{room.choices}||{room.secret}//\n")
+        if room.roomNumber <= roomNum:
+            file.write(f"{room.description}||{room.choices}||{room.secret}//\n")
     
     file.write("\n|;|\n")
 

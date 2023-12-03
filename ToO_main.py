@@ -18,7 +18,7 @@ class Room:
         self.description = description
         self.choices = choices
         self.secret = False
-        self.roomNumber = roomNumber
+        self.roomNumber = int(roomNumber)
         info.rooms.append(self)
         try:
             self.load()

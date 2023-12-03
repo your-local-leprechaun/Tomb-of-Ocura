@@ -1,0 +1,5 @@
+You are in a room with a bared door blocking your exit.||['open door']||False//
+
+|;|
+1
+|;|

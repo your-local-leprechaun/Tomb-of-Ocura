@@ -1,4 +1,4 @@
-from colorModule import Style, resetColor, changeColor
+from colorModule import resetColor, changeColor
 from basicModule import typeOut
 import ToO_info as info
 
@@ -29,6 +29,47 @@ class Inventory():
 
     def __str__(self) -> str:
         return str(self.items)
+    
+    def run(self) -> None:
+        changeColor("cyan")
+        typeOut("\n---Inventory---")
+        self.show()
+
+        playerInput = ""
+        while playerInput not in["quit", "exit", "leave"]:
+            typeOut("\nWhat would you like to do?\n> ", end="")
+            playerInput = input().lower()
+            
+            #Check any item in inventory
+            if any(word in ["check", "analyze"] for word in playerInput.split()):
+                playerInput = playerInput.replace("check ", "").replace("analyze ", "")
+                self.itemInfo(playerInput)
+
+            elif playerInput in ["show items", "show inventory"]:
+                self.show()
+
+            elif "unequip" in playerInput:
+                playerInput = playerInput.replace("unequip ", "")
+                self.unequipItem(playerInput)
+
+            elif "equip" in playerInput and "equipment" not in playerInput:
+                playerInput = playerInput.replace("equip ", "")
+                self.equipItem(playerInput)
+
+            elif playerInput in ["quit", "exit", "leave"]:
+                pass
+            
+            # #when returning from playerInput it goes a bit wild
+            # elif playerInput in inv.items:
+            #     pass
+
+            else:
+                print("HERE")
+                typeOut("--Invalid Command--")
+        
+        resetColor()
+        typeOut("\n---Adventure----")
+        return
     
     def show(self) -> None:
         if len(self.items) <= 0:
@@ -119,45 +160,5 @@ class Inventory():
             typeOut("-Item was not Equipped-")
 
     def save(self):
-        info.saveData(self.items)
+        pass
 
-def invFull(inv):
-    changeColor("cyan")
-    typeOut("\n---Inventory---")
-    inv.show()
-
-    playerInput = ""
-    while playerInput not in["quit", "exit", "leave"]:
-        typeOut("\nWhat would you like to do?\n> ", end="")
-        playerInput = input().lower()
-        
-        #Check any item in inventory
-        if any(word in ["check", "analyze"] for word in playerInput.split()):
-            playerInput = playerInput.replace("check ", "").replace("analyze ", "")
-            inv.itemInfo(playerInput)
-
-        elif playerInput in ["show items", "show inventory"]:
-            inv.show()
-
-        elif "equip" in playerInput and "equipment" not in playerInput and "unequip" not in playerInput:
-            playerInput = playerInput.replace("equip ", "")
-            inv.equipItem(playerInput)
-
-        elif "unequip" in playerInput:
-            playerInput = playerInput.replace("unequip ", "")
-            inv.unequipItem(playerInput)
-
-        elif playerInput in ["quit", "exit", "leave"]:
-            pass
-        
-        # #when returning from playerInput it goes a bit wild
-        # elif playerInput in inv.items:
-        #     pass
-
-        else:
-            print("HERE")
-            typeOut("--Invalid Command--")
-    
-    resetColor()
-    typeOut("\n---Adventure----")
-    return

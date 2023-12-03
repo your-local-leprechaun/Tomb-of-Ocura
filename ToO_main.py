@@ -1,12 +1,15 @@
-from basicModule import typeOut, quit
+from basicModule import typeOut, quit, check
 from colorModule import Style, resetColor
 import ToO_info as info
 from ToO_inventory import Inventory
+
+from time import sleep
 
 #Global Room names so we can always have them and have access across classes
 global room1
 global room2
 global room3
+global room4
 
 class Room:
 
@@ -16,10 +19,35 @@ class Room:
         self.choices = choices
         self.secret = False
         self.roomNumber = roomNumber
+        info.rooms.append(self)
+        try:
+            self.load()
+        except:
+            pass
         return
 
     def __str__(self):
         return f"{self.name}\n  {self.description}\n  {self.choices}"
+    
+    def load(self):
+        file = open("saveData/roomSave.txt", "r")
+        roomSaveNumber = self.roomNumber - 1
+
+        allSaves = file.read().split("\n|;|\n")
+        roomSaves = allSaves[0].split("//\n")
+
+        roomSave = roomSaves[roomSaveNumber]
+
+        roomSave = roomSave.split("||")
+
+        if roomSave[0] == "":
+            return KeyError
+        
+        self.description = roomSave[0]
+        self.choices = list(map(str.strip, roomSave[1].strip('][').replace("'", "").split(',')))
+        self.secret = roomSave[2]
+
+        file.close()
     
     def changeDescription(self, newDes):
         self.description = newDes
@@ -67,7 +95,6 @@ class Room:
         self.showDescription()
         typeOut("What would you like to do?")
         return
-
     
     def getInput(self, question="") -> str:
         """
@@ -106,18 +133,15 @@ class Room:
         
         #Inventory
         elif playerInput in ["inventory", "backpack", "inv"]:
-            print("---Open Inventory")
-
-            #FIX_ME Inventory
-            #inv.run()
+            inv.run()
 
             return None
         
         #Special Luke Function TP
-        elif "tp" in playerInput:
-            roomPort = playerInput.replace("tp", "").replace("room", "")
-            info.roomNum = roomPort
-            runRoom()
+        # elif "tp" in playerInput:
+        #     roomPort = playerInput.replace("tp", "").replace("room", "")
+        #     info.roomNum = roomPort
+        #     runRoom()
 
         #Return
         else:
@@ -332,9 +356,15 @@ class Room4(Room):
             else:
                 typeOut("\n--Invalid Command--")
 
-
+class Room5(Room):
+    
+    def __init__(self):
+        name = "Suits of Armor"
+        description = "You stand in a room with stands of armor all around you. Most of the armors look like they wouldn't fit you"
+        Room.__init__(name, description, choices, roomNumber=5)
 
 if __name__ == "__main__":
-    inventory = Inventory()
+    inv = Inventory()
+    check()
     room1 = Room1()
     room1.run()

@@ -1,7 +1,7 @@
 from sys import stdout
 from time import sleep
 
-def typeOut(message, sleepTime=0.0, end="\n") -> None:
+def typeOut(message, sleepTime=0.01, end="\n") -> None:
     """
     My favorite function. Shows the text typing out rather than just appearing. Very fun to use
     and makes anything look better in my eyes
@@ -19,6 +19,38 @@ def typeOut(message, sleepTime=0.0, end="\n") -> None:
     print(end, end="")
     return
 
+def save():
+    import ToO_main
+    from ToO_info import playerName, roomNum, rooms
+    #saves all data needed:
+    #   Inventory, room data, room num, player name,
+
+    #Room Saves
+    file = open("saveData/roomSave.txt", "w")
+    for room in rooms:
+        file.write(f"{room.description}||{room.choices}||{room.secret}//\n")
+    
+    file.write("\n|;|\n")
+
+    #Room Number Save
+    file.write(str(roomNum))
+    file.write("\n|;|\n")
+
+    print(str(ToO_main.inventory))
+
+    #Inventory Items save
+    for item in ToO_main.inventory.items:
+        file.write(f"{item}||")
+
+    file.write("\n|;|\n")
+
+    file.close()
+    pass
+
+def check():
+    from ToO_main import inv
+    print(str(inv))
+
 def quit() -> None:
     """
     Allows a quit to happen rather than having to break a billion times as we're running lots of functions, this would be easier. Also
@@ -27,6 +59,7 @@ def quit() -> None:
     typeOut("\nAre you sure you want to quit? (y/n)\nProgress will not be saved currently")
     playerInput = input().lower()
     if playerInput in ["yes", "y", "exit"]:
+        save()
         typeOut("Hope you come back soon!")
         exit()
     else:

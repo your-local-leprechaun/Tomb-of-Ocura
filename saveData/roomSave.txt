@@ -1,5 +1,7 @@
-You are in a room with a bared door blocking your exit.||['open door']||False//
+This room is full of candles and a star looking symbol painted on the ground. It looks to be made of red paint, or at least what you hope is red paint. To your north is a long hallway, where you swear you see movement. To your east is a closer room, and to your south is the Jail Cell.||['move north', 'move east', 'move south', 'check symbol']||True//
 
 |;|
-1
+2
+|;|
+secret key||
 |;|

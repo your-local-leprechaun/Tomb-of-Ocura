@@ -26,10 +26,22 @@ class Inventory():
         #This is the equipment area! 
         #0 - Weapon, 1 - Armor, 2 - Ring, 3 - Scroll
         self.equipped = ["", "", "", ""]
+        try:
+            self.load()
+        except:
+            pass
 
     def __str__(self) -> str:
         return str(self.items)
     
+    def load(self):
+        file = open("saveData/roomSave.txt", "r")
+        allSave = file.read().split("\n|;|\n")
+        items = allSave[2].split("||")
+        items.pop(-1)
+
+        self.addItems(items)
+
     def run(self) -> None:
         changeColor("cyan")
         typeOut("\n---Inventory---")
@@ -162,3 +174,5 @@ class Inventory():
     def save(self):
         pass
 
+if __name__ != "__main__":
+    inv = Inventory()

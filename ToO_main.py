@@ -1,7 +1,7 @@
 from basicModule import typeOut, quit, check
 from colorModule import Style, resetColor
 import ToO_info as info
-from ToO_inventory import Inventory
+from ToO_inventory import inv
 
 from time import sleep
 
@@ -91,6 +91,7 @@ class Room:
     
     def start(self):
         print()
+        info.roomNum = self.roomNumber
         typeOut(Style.BOLD + self.name + Style.RESET)
         self.showDescription()
         typeOut("What would you like to do?")
@@ -98,7 +99,7 @@ class Room:
     
     def getInput(self, question="") -> str:
         """
-        Deals with all basic inputs, such as quit, inventory, and some room related stuff, such as describe. This way, I don't have to put it in
+        Deals with all basic inputs, such as quit, inv, and some room related stuff, such as describe. This way, I don't have to put it in
         each and every room code. All these are based on the room currently in.
 
         Parameters
@@ -131,10 +132,9 @@ class Room:
             self.typeChoices()
             return
         
-        #Inventory
-        elif playerInput in ["inventory", "backpack", "inv"]:
+        #inv
+        elif playerInput in ["inv", "backpack", "inventory"]:
             inv.run()
-
             return None
         
         #Special Luke Function TP
@@ -161,17 +161,17 @@ class Room1(Room):
             if playerInput in ["get key", "grab key"] and self.checkChoice("get key"):
                 typeOut("\nYou grab the key. It seems like a perfect fit for the door.")
                 self.removeChoice("get key")
-                inventory.addItems("key")
+                inv.addItems("key")
                 self.changeDescription("You are in a room with a bared door blocking your exit.")
             
             #Open door
             elif playerInput in ["open door", "try door", "unlock door"] and self.checkChoice("open door"):
                 #Open with success
-                if inventory.checkForItem("key"):
+                if inv.checkForItem("key"):
                     typeOut("\nYou use the key and open the door. There is a pile of hay to your right, and a hallway to the north.")
                     self.removeChoice("open door")
                     self.addChoice("move north")
-                    inventory.removeItem("key")
+                    inv.removeItem("key")
                     self.changeDescription("You are in a room with an open bared door, there is a pile of hay and a hallway to the north.")
                 #Open without success
                 else:
@@ -180,7 +180,7 @@ class Room1(Room):
             #Check Hay (secret)
             elif playerInput in ["check hay", "analyze hay", "inspect hay"] and self.checkChoice("move north") and self.checkSecret() != True:
                 typeOut("\nYou check the hay and find a small note.")
-                inventory.addItems("note 1")
+                inv.addItems("note 1")
                 self.foundSecret()
 
             #Move North (1-->2)
@@ -250,7 +250,7 @@ class Room2(Room):
                 typeOut("\nYou look closer at the small flickering flames of the candle. Before your eyes, the fire glows until it's as tall as you."+
                         "Within the flame, you see a key. It moves towards you, until the base is out of the flames. You grab it, finding the key isn't even"+
                         " warm. You pocket the secret key.")
-                inventory.addItems("secret key")
+                inv.addItems("secret key")
                 self.foundSecret()
 
             elif playerInput == None:
@@ -295,7 +295,7 @@ class Room3(Room):
             elif playerInput in ["get sword", "grab sword"] and self.checkChoice("get sword"):
                 self.removeChoice("get sword")
                 typeOut("\nYou pick up the sword. Although basic, it will be useful.")
-                inventory.addItems("basic sword")
+                inv.addItems("basic sword")
                 if self.checkSecret():
                     self.changeDescription("The room you stand in has a skeleton on the ground, along with a secret passage "+
                                         "to your east. To your west is the candle room, to your south another bright room.")
@@ -344,12 +344,12 @@ class Room4(Room):
                 room3.run()
 
             #Open Chest
-            elif playerInput in ["open chest", "unlock chest"] and self.checkChoice("open chest") and inventory.checkForItem("secret key"):
+            elif playerInput in ["open chest", "unlock chest"] and self.checkChoice("open chest") and inv.checkForItem("secret key"):
                 typeOut("\nYou pull out your secret key and unlock the chest. It looks empty for a moment, until you see a small bronze ring. "+
                         "It looks to be the perfect fit for you.")
                 self.removeChoice("open chest")
-                inventory.removeItem("secret key")
-                inventory.addItems("bronze ring")
+                inv.removeItem("secret key")
+                inv.addItems("bronze ring")
                 self.changeDescription("You are in a brightly lit room with torches on the walls. There is an already opened chest in the middle. "
                                     + "There is a door to your north leading to the skeleton room.")
 
@@ -363,8 +363,9 @@ class Room5(Room):
         description = "You stand in a room with stands of armor all around you. Most of the armors look like they wouldn't fit you"
         Room.__init__(name, description, choices, roomNumber=5)
 
-if __name__ == "__main__":
-    inv = Inventory()
-    check()
+def main():
     room1 = Room1()
     room1.run()
+
+if __name__ == "__main__":
+    main()

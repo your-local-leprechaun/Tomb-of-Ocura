@@ -1,4 +1,4 @@
-from sys import stdout
+import sys
 from time import sleep
 
 def typeOut(message, sleepTime=0.01, end="\n") -> None:
@@ -14,13 +14,13 @@ def typeOut(message, sleepTime=0.01, end="\n") -> None:
     """
     for char in message:
         print(char, end="")
-        stdout.flush()
+        sys.stdout.flush()
         sleep(sleepTime)
     print(end, end="")
     return
 
 def save():
-    import ToO_main
+    from ToO_inventory import inv
     from ToO_info import playerName, roomNum, rooms
     #saves all data needed:
     #   Inventory, room data, room num, player name,
@@ -36,10 +36,8 @@ def save():
     file.write(str(roomNum))
     file.write("\n|;|\n")
 
-    print(str(ToO_main.inventory))
-
     #Inventory Items save
-    for item in ToO_main.inventory.items:
+    for item in inv.items:
         file.write(f"{item}||")
 
     file.write("\n|;|\n")
@@ -48,7 +46,7 @@ def save():
     pass
 
 def check():
-    from ToO_main import inv
+    from ToO_inventory import inv
     print(str(inv))
 
 def quit() -> None:
@@ -61,6 +59,6 @@ def quit() -> None:
     if playerInput in ["yes", "y", "exit"]:
         save()
         typeOut("Hope you come back soon!")
-        exit()
+        sys.exit()
     else:
         return

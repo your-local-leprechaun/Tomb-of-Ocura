@@ -2,6 +2,7 @@ from basicModule import typeOut, quit, check
 from colorModule import Style, resetColor
 import ToO_info as info
 from ToO_inventory import inv
+from creatures import createPlayer, player
 
 from time import sleep
 
@@ -129,6 +130,7 @@ class Room:
         
         #Check available Actions
         elif playerInput in ["check", "analyze", "choices", "actions"]:
+            typeOut(str(player))
             self.typeChoices()
             return
         
@@ -218,7 +220,8 @@ class Room2(Room):
                 try:
                     room5
                 except:
-                    pass
+                    room5 = Room5()
+                room5.run()
 
             #Move East (2 -> 3)
             elif playerInput in ["move east", "walk east", "go east"]:
@@ -363,7 +366,24 @@ class Room5(Room):
         description = "You stand in a room with stands of armor all around you. Most of the armors look like they wouldn't fit you"
         Room.__init__(name, description, choices, roomNumber=5)
 
+    def run(self):
+        pass
+
+def intro():
+    typeOut("This is where the story will begin! What is your name?")
+    while True:
+        playerName = input()
+        typeOut(f"Your name is {playerName}? (y/n)")
+        playerInput = input().lower()
+        if playerInput in ["y", "yes"]:
+            createPlayer(playerName)
+            break
+        else:
+            typeOut("What is your name?")
+            pass
+
 def main():
+    intro()
     room1 = Room1()
     room1.run()
 

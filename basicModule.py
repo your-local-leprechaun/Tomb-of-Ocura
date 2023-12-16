@@ -50,6 +50,9 @@ def check():
     from ToO_inventory import inv
     print(str(inv))
 
+def death():
+    pass
+
 def quit() -> None:
     """
     Allows a quit to happen rather than having to break a billion times as we're running lots of functions, this would be easier. Also

@@ -1,5 +1,6 @@
 from basicModule import typeOut
 import ToO_main as main
+import ToO_battle as battle
 
 def load():
     file = open("saveData/roomSave.txt", "r")
@@ -22,7 +23,7 @@ def load():
         main.room4.run()
 
 
-typeOut("The Tomb of Ocura\n   1. Start New Game\n   2. Load Game\n   3. Trophies\n   4. Credits")
+typeOut("The Tomb of Ocura\n   1. Start New Game\n   2. Load Game\n   3. Trophies\n   4. Credits\n   5. Battle Testing")
 
 typeOut("What would you like to do?")
 inLoop = True
@@ -37,6 +38,9 @@ while inLoop:
             inLoop=False
         except IndexError:
             typeOut("\n--No Available Load Data--")
+
+    elif playerInput in ["5", "battle", "battle testing"]:
+        battle.testFight()
 
     else:
         typeOut("--Invalid Command--")

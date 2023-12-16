@@ -1,8 +1,10 @@
-You are in a room with an open bared door, there is a pile of hay and a hallway to the north.||['move north']||False//
-You are in a room with an open bared door, there is a pile of hay and a hallway to the north.||['move north']||False//
+You are in a room with an open bared door, there is a pile of hay and a hallway to the north.||['move north']||True
+This room is full of candles and a star looking symbol painted on the ground. It looks to be made of red paint, or at least what you hope is red paint. To your north is a long hallway, where you swear you see movement. To your east is a closer room, and to your south is the Jail Cell.||['move north', 'move east', 'move south', 'check symbol']||False
 
-|;|
-1
-|;|
 
-|;|
+
+
+
+
+
+

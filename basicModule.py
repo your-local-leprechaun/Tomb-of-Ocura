@@ -19,32 +19,32 @@ def typeOut(message, sleepTime=0.01, end="\n") -> None:
     print(end, end="")
     return
 
-def save():
-    from ToO_inventory import inv
-    from ToO_info import playerName, roomNum, rooms
-    #saves all data needed:
-    #   Inventory, room data, room num, player name,
+def getLine(saveFile, roomNumber) -> str:
+    lines = open(f"saveData\{saveFile}", "r").readlines()
+    return lines[roomNumber - 1]
 
-    #Room Saves
-    file = open("saveData/roomSave.txt", "w")
-    for room in rooms:
-        if room.roomNumber <= roomNum:
-            file.write(f"{room.description}||{room.choices}||{room.secret}//\n")
-    
-    file.write("\n|;|\n")
+def replaceLine(saveFile, lineNumber, replacement):
+    try:
+        lines = open(f"saveData\{saveFile}", "r").readlines()
+        lines[lineNumber-1] = replacement + "\n"
+        out = open(f"saveData\{saveFile}", 'w')
+        out.writelines(lines)
+        out.close()
+    except IndexError:
+        lineCreation = ""
+        #Number of rooms == the number in range!
+        for i in range(10):
+            lineCreation += "\n"
 
-    #Room Number Save
-    file.write(str(roomNum))
-    file.write("\n|;|\n")
+        file = open(f"saveData\{saveFile}", "w")
+        file.write(lineCreation)
+        file.close()
 
-    #Inventory Items save
-    for item in inv.items:
-        file.write(f"{item}||")
-
-    file.write("\n|;|\n")
-
-    file.close()
-    pass
+        lines = open(f"saveData\{saveFile}", "r").readlines()
+        lines[lineNumber-1] = replacement + "\n"
+        out = open(f"saveData\{saveFile}", 'w')
+        out.writelines(lines)
+        out.close()
 
 def check():
     from ToO_inventory import inv
@@ -66,3 +66,6 @@ def quit() -> None:
         sys.exit()
     else:
         return
+    
+if __name__ == "__main__":
+    replaceLine("roomSave.txt", 10, "Change to this")

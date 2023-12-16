@@ -1,16 +1,8 @@
-from basicModule import typeOut, quit, check
+from basicModule import *
 from colorModule import Style, resetColor
 import ToO_info as info
 from ToO_inventory import inv
 from creatures import createPlayer, player
-
-from time import sleep
-
-#Global Room names so we can always have them and have access across classes
-global room1
-global room2
-global room3
-global room4
 
 class Room:
 
@@ -30,25 +22,18 @@ class Room:
     def __str__(self):
         return f"{self.name}\n  {self.description}\n  {self.choices}"
     
+    def save(self):
+        replacementString = f"{self.description}||{self.choices}||{self.secret}"
+        replaceLine("roomSave.txt", self.roomNumber, replacementString)
+
     def load(self):
-        file = open("saveData/roomSave.txt", "r")
-        roomSaveNumber = self.roomNumber - 1
+        load = getLine("roomSave.txt", self.roomNumber)
 
-        allSaves = file.read().split("\n|;|\n")
-        roomSaves = allSaves[0].split("//\n")
-
-        roomSave = roomSaves[roomSaveNumber]
-
-        roomSave = roomSave.split("||")
-
-        if roomSave[0] == "":
-            return KeyError
-        
-        self.description = roomSave[0]
-        self.choices = list(map(str.strip, roomSave[1].strip('][').replace("'", "").split(',')))
-        self.secret = roomSave[2]
-
-        file.close()
+        if load not in ["", "\n"]:
+            data = load.split("||")
+            self.description = data[0]
+            self.choices = list(map(str.strip, data[1].strip('][').replace("'", "").split(',')))
+            self.secret = data[2]
     
     def changeDescription(self, newDes):
         self.description = newDes
@@ -130,7 +115,6 @@ class Room:
         
         #Check available Actions
         elif playerInput in ["check", "analyze", "choices", "actions"]:
-            typeOut(str(player))
             self.typeChoices()
             return
         
@@ -188,11 +172,8 @@ class Room1(Room):
             #Move North (1-->2)
             elif playerInput in ["move north", "walk north", "go north"] and self.checkChoice("move north"):
                 typeOut("\nYou walk to your north to the next room.")
-                try:
-                    room2
-                except:
-                    room2 = Room2()
-                room2.run()
+                self.save()
+                Room2().run()
 
             #Catch Case
             elif playerInput == None:
@@ -217,27 +198,18 @@ class Room2(Room):
 
             #Move North (2 -> 5)
             if playerInput in ["move north", "walk north", "go north"]:
-                try:
-                    room5
-                except:
-                    room5 = Room5()
-                room5.run()
+                self.save()
+                Room5().run()
 
             #Move East (2 -> 3)
             elif playerInput in ["move east", "walk east", "go east"]:
-                try:
-                    room3
-                except:
-                    room3 = Room3()
-                room3.run()
+                self.save()
+                Room3().run()
 
             #Move South (2 -> 1)
             elif playerInput in ["move south", "walk south", "go south"]:
-                try:
-                    room1
-                except:
-                    room1 = Room1()
-                room1.run()
+                self.save()
+                Room1().run()
 
             #Check Symbol
             elif playerInput in ["check symbol", "investigate symbol", "analyze symbol", "check floor"]:
@@ -279,20 +251,14 @@ class Room3(Room):
             #Move South (3 -> 4)
             if playerInput in ["move south", "walk south", "go south"]:
                 typeOut("\nYou walk to the room to the south.")
-                try:
-                    room4
-                except:
-                    room4 = Room4()
-                room4.run()
+                self.save()
+                Room4().run()
 
             #Move West (3 -> 2)
             elif playerInput in ["move west", "walk west", "go west"]:
                 typeOut("\nYou walk into the room to the west.")
-                try:
-                    room2
-                except:
-                    room2 = Room2()
-                room2.run()
+                self.save()
+                Room2().run()
 
             #Get Sword
             elif playerInput in ["get sword", "grab sword"] and self.checkChoice("get sword"):
@@ -340,11 +306,8 @@ class Room4(Room):
             #Move North (4 -> 3)
             if playerInput in ["move north", "go north", "walk north"]:
                 typeOut("You walk out of the room.")
-                try:
-                    room3
-                except:
-                    room3 = Room3()
-                room3.run()
+                self.save()
+                Room3().run()
 
             #Open Chest
             elif playerInput in ["open chest", "unlock chest"] and self.checkChoice("open chest") and inv.checkForItem("secret key"):
@@ -388,4 +351,4 @@ def main():
     room1.run()
 
 if __name__ == "__main__":
-    main()
+    Room1().run()

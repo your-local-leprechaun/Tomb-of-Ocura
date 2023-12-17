@@ -1,5 +1,5 @@
 from basicModule import *
-from colorModule import Style, resetColor
+from colorModule import Style
 import ToO_info as info
 from ToO_inventory import inv
 from creatures import createPlayer, player
@@ -22,6 +22,7 @@ class Room:
     def __str__(self):
         return f"{self.name}\n  {self.description}\n  {self.choices}"
     
+    #Save/Load Methods
     def save(self):
         replacementString = f"{self.description}||{self.choices}||{self.secret}"
         replaceLine("roomSave.txt", self.roomNumber, replacementString)
@@ -35,6 +36,7 @@ class Room:
             self.choices = list(map(str.strip, data[1].strip('][').replace("'", "").split(',')))
             self.secret = data[2]
     
+    #Room Functions (Changing/grabbing info etc)
     def changeDescription(self, newDes):
         self.description = newDes
         return
@@ -75,6 +77,7 @@ class Room:
         self.secret = True
         return
     
+    #In room Methods (Used to continue while in room)
     def start(self):
         print()
         info.roomNum = self.roomNumber

@@ -33,7 +33,7 @@ def replaceLine(saveFile, lineNumber, replacement):
     except IndexError:
         lineCreation = ""
         #Number of rooms == the number in range!
-        for i in range(10):
+        for i in range(24):
             lineCreation += "\n"
 
         file = open(f"saveData\{saveFile}", "w")
